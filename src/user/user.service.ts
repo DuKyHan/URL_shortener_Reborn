@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Inject,
   Injectable,
   NotFoundException,
@@ -7,13 +8,14 @@ import {
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { compareSync } from 'bcrypt';
+import { compareSync, hashSync } from 'bcrypt';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { Model } from 'mongoose';
 import authConfig from 'src/config/auth.config';
-import { AccountAccessTokenClaims } from 'src/user/dto/claim.dto';
+import { UserAccessTokenClaims } from 'src/user/dto/claim.dto';
 import { LoginDto } from 'src/user/dto/login.dto';
 import { TokenOutputDto } from 'src/user/dto/token-output.dto';
+import { UserOutputDto } from 'src/user/dto/user.output.dto';
 import { User } from 'src/user/schema/user.schema';
 import { RegisterUserDto } from './dto/register-user.dto';
 
@@ -32,11 +34,22 @@ export class UserService {
     this.refreshTokenExpirationTime = this.configService.refreshTokenLifeSec;
   }
 
-  async register(user: RegisterUserDto) {
-    return user;
+  async register(dto: RegisterUserDto) {
+    const exist = await this.userModel.findOne({ email: dto.email });
+    if (exist) {
+      throw new BadRequestException('Email already exists');
+    }
+
+    const res = await this.userModel.create({
+      email: dto.email,
+      password: hashSync(dto.password, 10),
+      name: dto.name,
+    });
+    return plainToClass(UserOutputDto, res, { excludeExtraneousValues: true });
   }
 
-  async validateUser(input: LoginDto): Promise<AccountAccessTokenClaims> {
+  async validateUser(input: LoginDto): Promise<UserAccessTokenClaims> {
+    console.log('input', input);
     const res = await this.userModel.findOne({ email: input.email });
     if (!res) {
       throw new NotFoundException('User not found');
@@ -50,7 +63,11 @@ export class UserService {
     };
   }
 
-  getAuthToken(account: AccountAccessTokenClaims): TokenOutputDto {
+  async login(dto: UserAccessTokenClaims): Promise<TokenOutputDto> {
+    return this.getAuthToken(dto);
+  }
+
+  getAuthToken(account: UserAccessTokenClaims): TokenOutputDto {
     const subject = { sub: account.id };
     const payload = {
       email: account.email,

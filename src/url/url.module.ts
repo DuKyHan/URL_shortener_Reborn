@@ -18,5 +18,6 @@ import { UrlService } from 'src/url/url.service';
   ],
   controllers: [UrlController],
   providers: [UrlService],
+  exports: [UrlService],
 })
 export class UrlModule {}

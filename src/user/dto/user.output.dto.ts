@@ -1,9 +1,9 @@
 import { Expose } from 'class-transformer';
 
-export class UserAccessTokenClaims {
-  @Expose()
-  id: number;
-
+export class UserOutputDto {
   @Expose()
   email: string;
+
+  @Expose()
+  name: string;
 }

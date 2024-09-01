@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { Strategy } from 'passport-local';
 import { STRATEGY_LOCAL } from 'src/user/constants';
-import { AccountAccessTokenClaims } from 'src/user/dto/claim.dto';
+import { UserAccessTokenClaims } from 'src/user/dto/claim.dto';
 import { UserService } from 'src/user/user.service';
 
 /**
@@ -24,7 +24,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, STRATEGY_LOCAL) {
     request: Request,
     email: string,
     password: string,
-  ): Promise<AccountAccessTokenClaims> {
+  ): Promise<UserAccessTokenClaims> {
     const account = await this.authService.validateUser({ email, password });
     return account;
   }

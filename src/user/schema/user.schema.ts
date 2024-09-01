@@ -5,7 +5,7 @@ export class User {
   @Prop()
   name: string;
 
-  @Prop()
+  @Prop({ unique: true })
   email: string;
 
   @Prop()

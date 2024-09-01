@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
+import * as a from 'mongoose-unique-validator';
 import { JwtAuthGuard } from 'src/user/guard/jwt-auth.guard';
 import { JwtRefreshGuard } from 'src/user/guard/jwt-refresh.guard';
 import { LocalAuthGuard } from 'src/user/guard/local-auth.guard';
@@ -16,7 +17,16 @@ import { UserService } from './user.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeatureAsync([
+      {
+        name: User.name,
+        useFactory: () => {
+          const schema = UserSchema;
+          schema.plugin(a, { message: 'Required unique fields' });
+          return schema;
+        },
+      },
+    ]),
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('auth.secret'),

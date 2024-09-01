@@ -1,5 +1,6 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { LoginDto } from 'src/user/dto/login.dto';
+import { ReqContext, RequestContext } from 'src/common/request-context';
+import { Public } from 'src/user/decorators';
 import { RefreshTokenInputDto } from 'src/user/dto/refresh-token.dto';
 import { JwtRefreshGuard } from 'src/user/guard/jwt-refresh.guard';
 import { LocalAuthGuard } from 'src/user/guard/local-auth.guard';
@@ -10,15 +11,20 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() user: LoginDto) {}
+  async login(@ReqContext() context: RequestContext) {
+    return this.userService.login(context.user);
+  }
 
+  @Public()
   @Post('register')
   async register(@Body() user: RegisterUserDto) {
     return await this.userService.register(user);
   }
 
+  @Public()
   @UseGuards(JwtRefreshGuard)
   @Post('refresh-token')
   async refreshToken(@Req() req: Request, @Body() input: RefreshTokenInputDto) {
