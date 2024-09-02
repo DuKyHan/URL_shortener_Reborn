@@ -3,9 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   UrlMapping,
   UrlMappingSchema,
-} from 'src/url/schema/url-mapping.schema';
-import { UrlController } from 'src/url/url.controller';
-import { UrlService } from 'src/url/url.service';
+} from 'apps/url-shortener/src/url/schema/url-mapping.schema';
+import { UrlController } from 'apps/url-shortener/src/url/url.controller';
+import { UrlService } from 'apps/url-shortener/src/url/url.service';
 
 @Module({
   imports: [

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { STRATEGY_LOCAL } from 'apps/url-shortener/src/user/constants';
+import { UserAccessTokenClaims } from 'apps/url-shortener/src/user/dto/claim.dto';
+import { UserService } from 'apps/url-shortener/src/user/user.service';
 import { Request } from 'express';
 import { Strategy } from 'passport-local';
-import { STRATEGY_LOCAL } from 'src/user/constants';
-import { UserAccessTokenClaims } from 'src/user/dto/claim.dto';
-import { UserService } from 'src/user/user.service';
 
 /**
  * Use to provide strategy for local auth guard

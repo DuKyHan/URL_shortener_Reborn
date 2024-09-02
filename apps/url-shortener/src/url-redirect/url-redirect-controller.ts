@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Res } from '@nestjs/common';
+import { UrlService } from 'apps/url-shortener/src/url/url.service';
+import { Public } from 'apps/url-shortener/src/user/decorators';
 import { Response } from 'express';
-import { UrlService } from 'src/url/url.service';
-import { Public } from 'src/user/decorators';
 
 @Controller()
 export class UrlRedirectController {

@@ -8,15 +8,16 @@ import {
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
+import urlConfig from 'apps/url-shortener/src/config/url.config';
+import { ShortenUrlInputDto } from 'apps/url-shortener/src/url/dto/shorten-url.input.dto';
+import { UrlMappingOutputDto } from 'apps/url-shortener/src/url/dto/url-mapping.output.dto';
+import { UrlMapping } from 'apps/url-shortener/src/url/schema/url-mapping.schema';
+import { UserAccessTokenClaims } from 'apps/url-shortener/src/user/dto/claim.dto';
 import * as base62 from 'base62';
 import { plainToClass } from 'class-transformer';
+import { randomInt } from 'crypto';
 import * as md5 from 'md5';
 import { Model } from 'mongoose';
-import urlConfig from 'src/config/url.config';
-import { ShortenUrlInputDto } from 'src/url/dto/shorten-url.input.dto';
-import { UrlMappingOutputDto } from 'src/url/dto/url-mapping.output.dto';
-import { UrlMapping } from 'src/url/schema/url-mapping.schema';
-import { UserAccessTokenClaims } from 'src/user/dto/claim.dto';
 
 @Injectable()
 export class UrlService {
@@ -118,7 +119,8 @@ export class UrlService {
       Math.min(
         res.expirationDate.getTime() - Date.now(),
         this.urlConfigApi.cacheExpirationTimeInSeconds * 1000,
-      ),
+      ) +
+        randomInt(120) * 1000,
     );
     return res.longUrl;
   }

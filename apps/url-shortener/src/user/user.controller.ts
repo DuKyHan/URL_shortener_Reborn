@@ -1,9 +1,12 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
-import { ReqContext, RequestContext } from 'src/common/request-context';
-import { Public } from 'src/user/decorators';
-import { RefreshTokenInputDto } from 'src/user/dto/refresh-token.dto';
-import { JwtRefreshGuard } from 'src/user/guard/jwt-refresh.guard';
-import { LocalAuthGuard } from 'src/user/guard/local-auth.guard';
+import {
+  ReqContext,
+  RequestContext,
+} from 'apps/url-shortener/src/common/request-context';
+import { Public } from 'apps/url-shortener/src/user/decorators';
+import { RefreshTokenInputDto } from 'apps/url-shortener/src/user/dto/refresh-token.dto';
+import { JwtRefreshGuard } from 'apps/url-shortener/src/user/guard/jwt-refresh.guard';
+import { LocalAuthGuard } from 'apps/url-shortener/src/user/guard/local-auth.guard';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserService } from './user.service';
 

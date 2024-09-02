@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { UserAccessTokenClaims } from 'apps/url-shortener/src/user/dto/claim.dto';
 import { plainToClass } from 'class-transformer';
 import { Request } from 'express';
-import { UserAccessTokenClaims } from 'src/user/dto/claim.dto';
 
 export const REQUEST_ID_TOKEN_HEADER = 'x-request-id';
 

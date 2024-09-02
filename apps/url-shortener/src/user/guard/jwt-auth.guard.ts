@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { TokenExpiredError } from 'jsonwebtoken';
 import { Observable } from 'rxjs';
 
+import { TokenExpiredError } from '@nestjs/jwt';
 import { STRATEGY_JWT_AUTH } from '../constants/strategy.constant';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 

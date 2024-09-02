@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { User } from 'apps/url-shortener/src/user/schema/user.schema';
 import { now } from 'mongoose';
-import { User } from 'src/user/schema/user.schema';
 
 @Schema()
 export class UrlMapping {

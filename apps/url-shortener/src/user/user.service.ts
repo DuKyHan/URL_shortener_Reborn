@@ -8,15 +8,15 @@ import {
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
+import authConfig from 'apps/url-shortener/src/config/auth.config';
+import { UserAccessTokenClaims } from 'apps/url-shortener/src/user/dto/claim.dto';
+import { LoginDto } from 'apps/url-shortener/src/user/dto/login.dto';
+import { TokenOutputDto } from 'apps/url-shortener/src/user/dto/token-output.dto';
+import { UserOutputDto } from 'apps/url-shortener/src/user/dto/user.output.dto';
+import { User } from 'apps/url-shortener/src/user/schema/user.schema';
 import { compareSync, hashSync } from 'bcrypt';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { Model } from 'mongoose';
-import authConfig from 'src/config/auth.config';
-import { UserAccessTokenClaims } from 'src/user/dto/claim.dto';
-import { LoginDto } from 'src/user/dto/login.dto';
-import { TokenOutputDto } from 'src/user/dto/token-output.dto';
-import { UserOutputDto } from 'src/user/dto/user.output.dto';
-import { User } from 'src/user/schema/user.schema';
 import { RegisterUserDto } from './dto/register-user.dto';
 
 @Injectable()
@@ -49,7 +49,6 @@ export class UserService {
   }
 
   async validateUser(input: LoginDto): Promise<UserAccessTokenClaims> {
-    console.log('input', input);
     const res = await this.userModel.findOne({ email: input.email });
     if (!res) {
       throw new NotFoundException('User not found');

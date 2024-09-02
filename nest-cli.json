@@ -1,8 +1,32 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/url-shortener/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/url-shortener/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/url-shortener",
+  "projects": {
+    "url-shortener": {
+      "type": "application",
+      "root": "apps/url-shortener",
+      "entryFile": "main",
+      "sourceRoot": "apps/url-shortener/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/url-shortener/tsconfig.app.json"
+      }
+    },
+    "analytics": {
+      "type": "application",
+      "root": "apps/analytics",
+      "entryFile": "main",
+      "sourceRoot": "apps/analytics/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/analytics/tsconfig.app.json"
+      }
+    }
   }
 }
